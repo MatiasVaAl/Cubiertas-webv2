@@ -1,0 +1,7 @@
+@props(['value' => 1, 'livewire' => false, 'id' => 'quantity'])
+<div class="quantity-stepper" @if(!$livewire) x-data="{ count: {{ (int) $value }}, original: {{ (int) $value }}, submitting: false }" x-init="$refs.quantity.form.addEventListener('submit', () => submitting = true)" @endif>
+    <button type="button" aria-label="Disminuir cantidad" @if($livewire) wire:click="adjustQuantity(-1)" @disabled((int) $value <= 1) @else @click="count = Math.max(1, Number(count) - 1); $nextTick(() => $refs.quantity.form.requestSubmit())" :disabled="submitting || Number(count) <= 1" @endif><x-icon name="minus" /></button>
+    <input id="{{ $id }}" aria-label="Cantidad de cubiertas iguales" name="quantity" type="number" min="1" max="10000" step="1" value="{{ $value }}" @if($livewire) wire:model.live.debounce.350ms="quantity" @else x-ref="quantity" x-model="count" :readonly="submitting" @endif>
+    <button type="button" aria-label="Aumentar cantidad" @if($livewire) wire:click="adjustQuantity(1)" @disabled((int) $value >= 10000) @else @click="count = Math.min(10000, Number(count) + 1); $nextTick(() => $refs.quantity.form.requestSubmit())" :disabled="submitting || Number(count) >= 10000" @endif><x-icon name="plus" /></button>
+    @if(!$livewire)<button class="quantity-apply" type="submit" x-show="Number(count) !== original" :disabled="submitting">Actualizar</button><span x-show="submitting" x-cloak class="muted" role="status">Actualizando…</span>@endif
+</div>

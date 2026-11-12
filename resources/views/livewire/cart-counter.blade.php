@@ -1,0 +1,1 @@
+<a class="cart-link" href="{{ route('cart.index') }}" aria-label="Ver carrito: {{ trans_choice('interface.covers', $quantity) }}"><x-icon name="cart" /><span class="cart-count">{{ $quantity }}</span><span class="cart-word">Carrito</span></a>
